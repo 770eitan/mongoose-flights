@@ -8,9 +8,10 @@ function newFlight(req, res) {
 
 function show(req, res) {
   Flight.findById(req.params.id)
-  .populate('meal')
+  .populate('meals')
   .exec(function(err, flight) {
-    res.render('flights/show', { title: 'flight Detail', flight })
+    res.render('flights/show', { title: 'flight Detail', flight: flight,
+  })
   })
 }
 function deleteFlight(req, res) {
@@ -33,7 +34,7 @@ function create(req, res) {
   console.log("req.body after", req.body)
   // New
   const flight = new Flight(req.body)
-  console.log(flight)
+  if (req.body.departs === '') delete req.body.departs
   flight.save(function(err) {
     if (err) return res.redirect('/flights/new')
     res.redirect(`/flights/${flight._id}`)

@@ -12,10 +12,11 @@
     <div>Flight Number:</div>
     <div><%= flight.flightNo %></div>
     <div>Flight Departure:</div>
-    <div><%= flight.departs %></div>
-    <div><%= flight.createdAt.toLocaleString('en-US')%></div>
+    <div><%= flight.createdAt.toLocaleString('en-US') + 365*24*60*60000
+
+      %></div>
     
-  </section>
+    </section>
   <a href="/flights/<%= flight._id %>/edit">
     <button>Edit flight</button>
   </a>
@@ -51,20 +52,13 @@
       </tr>
       <% }) %>
     </tbody>
+ 
   </table>
   <% } else { %>
   <h3>No tickets Yet</h3>
   <% } %>
 <%# start meal list %>
-<!-- <div>Meal:</div>
-<ul>
-  <% flight.meal.forEach(mealMember => { %>
-    <li><%= mealMember.name %></li>
-  <% }) %>
-
-</select>
-<button type="submit">Add to Meal</button>
-</form> -->
+</form> 
 
 
 
