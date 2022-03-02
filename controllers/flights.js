@@ -1,5 +1,5 @@
 import { Flight } from "../models/flight.js"
-
+import {Meal} from '../models/meal.js'
 function newFlight(req, res) {
   res.render('flights/new',{
   title: "Add Flight"
@@ -7,14 +7,12 @@ function newFlight(req, res) {
 }
 
 function show(req, res) {
-  Flight.findById(req.params.id, function (err, flight) {
-    res.render('flights/show', { 
-      title: 'flight Detail', 
-      flight: flight,
-    })
+  Flight.findById(req.params.id)
+  .populate('meal')
+  .exec(function(err, flight) {
+    res.render('flights/show', { title: 'flight Detail', flight })
   })
 }
-
 function deleteFlight(req, res) {
   Flight.findByIdAndDelete(req.params.id, function(err, flight) {
     res.redirect('/flights')
@@ -24,21 +22,21 @@ function deleteFlight(req, res) {
 function create(req, res) {
   console.log("req.body before", req.body)
   req.body.nowShowing = !!req.body.nowShowing
-  // req.body.cast before: "me, you, us"
-  if (req.body.cast) {
-    req.body.cast = req.body.cast.split(', ')
+  // req.body.meal before: "me, you, us"
+  if (req.body.meal) {
+    req.body.meal = req.body.meal.split(', ')
   }
   for (let key in req.body) {
     if(req.body[key] === "") delete req.body[key]
   }
-  // req.body.cast after: ["me", "you", "us"]
+  // req.body.meal after: ["me", "you", "us"]
   console.log("req.body after", req.body)
   // New
   const flight = new Flight(req.body)
   console.log(flight)
   flight.save(function(err) {
     if (err) return res.redirect('/flights/new')
-    res.redirect('/flights')
+    res.redirect(`/flights/${flight._id}`)
   })
 }
 
@@ -67,8 +65,8 @@ function update(req, res) {
   for (let key in req.body) {
     if (req.body[key] === '') delete req.body[key]
   }
-  Movie.findByIdAndUpdate(req.params.id, req.body, function(err, movie) {
-    res.redirect(`/movies/${movie._id}`)
+  Flight.findByIdAndUpdate(req.params.id, req.body, function(err, flight) {
+    res.redirect(`/flights/${flight._id}`)
   })
 }
 
@@ -80,6 +78,16 @@ function createTicket(req, res) {
     })
   })
 }
+
+function addToMeal(req, res) {
+  Flight.findById(req.params.id, function(err, flight) {
+    flight.meal.push(req.body.mealId)
+    flight.save(function(err) {
+      res.redirect(`/flights/${flight._id}`)
+    })
+  })
+}
+
 export {
   newFlight as new,
   create,
@@ -88,5 +96,6 @@ export {
   deleteFlight as delete,
   edit,
   update,
-  createTicket
+  createTicket,
+  addToMeal
 }

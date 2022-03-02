@@ -13,37 +13,41 @@
     <div><%= flight.flightNo %></div>
     <div>Flight Departure:</div>
     <div><%= flight.departs %></div>
+    <div><%= flight.createdAt.toLocaleString('en-US')%></div>
+    
   </section>
   <a href="/flights/<%= flight._id %>/edit">
     <button>Edit flight</button>
   </a>
 
   <% // new markup below %>
-  <h2>seats</h2>
+  <h2>Tickets</h2>
   <form
     id="add-seat-form"
-    action="/flights/<%= flight._id %>/seats"
+    action="/flights/<%= flight._id %>/ticket"
     method="POST"
   >
     <label for="seat">seats(must be A1-F99)</label>
     <input name="seat" required pattern="[A-F][1-9]\d"/>
-    <button type="submit">Add seats</button>
+    <label for= "price">Price</label><input type="text" name="price" id="price"/>
+    <button type="submit">Add Seat</button>
+
   </form>
   <% if (flight.tickets.length) { %>
   <table>
     <thead>
       <tr>
-        <th>Date</th>
-        <th>Review</th>
-        <th>Rating</th>
+        <th>Seat</th>
+        <th>Price</th>    
+        
       </tr>
     </thead>
     <tbody>
       <% flight.tickets.forEach(function(ticket) { %>
       <tr>
-        <td><%= ticket.createdAt.toLocaleDateString() %></td>
-        <td><%= ticket.seat %></td>
-        <td><%= ticket.Price %></td>
+        <td><%= ticket.seat %> 
+        <%= ticket.createdAt.toLocaleString('en-US') %></td>
+        <td><%= ticket.price %></td>
       </tr>
       <% }) %>
     </tbody>
@@ -51,6 +55,21 @@
   <% } else { %>
   <h3>No tickets Yet</h3>
   <% } %>
+<%# start meal list %>
+<!-- <div>Meal:</div>
+<ul>
+  <% flight.meal.forEach(mealMember => { %>
+    <li><%= mealMember.name %></li>
+  <% }) %>
+
+</select>
+<button type="submit">Add to Meal</button>
+</form> -->
+
+
+
+
+
 </main>
 
 <%- include('../partials/footer') %>

@@ -5,7 +5,9 @@ const Schema = mongoose.Schema
 const ticketSchema = new Schema({
   seat: { type: String, match: /[A-F][1-9]\d?/},
    price: {type:Number, min:0}
- })
+ },{
+  timestamps: true
+})
 
 
 const flightSchema = new Schema({
@@ -26,12 +28,15 @@ const flightSchema = new Schema({
   },
   departs: {
     type: Date,
-    timestamps: { currentTime: () => Math.floor(Date.now() / 1000) }
+    timestamps: { timestamps: () => Math.floor(Date.now() / 1000) }
     },
-    tickets: [ticketSchema]
-    })
+  tickets: [ticketSchema] 
+},{
+  timestamps: true
+})
 
-   
+
+
 const Flight = mongoose.model('Flight', flightSchema)
 
 

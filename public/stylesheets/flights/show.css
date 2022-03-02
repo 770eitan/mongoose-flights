@@ -37,18 +37,18 @@ section div:nth-child(even) {
   font-weight: bold;
 }
 
-#add-review-form {
+#add-seat-form {
   display: grid;
   grid-template-columns: auto auto;
   grid-gap: 1.6rem;
   margin-bottom: 2rem
 }
 
-#add-review-form > textarea {
+#add-seat-form > textarea {
   width: 25rem;
 }
 
-#add-review-form > button {
+#add-seat-form > button {
   font-size: 1.6rem;
   width: 16rem;
   grid-column: 2 / 3;
