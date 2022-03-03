@@ -6,7 +6,7 @@
 	<h1><%= title %></h1>
   <p>Please first ensure that the Meal is not in the dropdown
     <select>
-      <% meals.forEach(function(meal) { %>
+      <% meals.forEach(meal => { %>
         <option><%= meal.name %></option>
       <% }) %>
     </select>
