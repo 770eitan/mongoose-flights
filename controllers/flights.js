@@ -16,7 +16,7 @@ function show(req, res) {
       res.render("flights/show", {
         flight: flight,
         title: "flight Detail",
-        meals,
+        meals: meals,
       })
     })
   })

@@ -14,7 +14,7 @@
     <div>Flight Departure:</div>
     <div><%= flight.createdAt.toLocaleString('en-US') + 365*24*60*60000
   %></div>
-    <div>Cast: </div>
+    <div>Meal: </div>
     <ul>
       <% flight.meal.forEach(meal => { %>
         <li><%= meal.name %></li>
@@ -31,7 +31,7 @@
         <option value="<%= meal._id %>"><%= meal.name %></option>
       <% }) %>
     </select>
-    <button type="submit">Add to Cast</button>
+    <button type="submit">Add Meal</button>
   </form>
     
     
