@@ -8,10 +8,17 @@ function newFlight(req, res) {
 
 function show(req, res) {
   Flight.findById(req.params.id)
-  .populate('meals')
-  .exec(function(err, flight) {
-    res.render('flights/show', { title: 'flight Detail', flight: flight,
-  })
+  .populate('meal')
+  .exec(function (err, flight) {
+    Meal.find({_id: {$nin: Flight.meal}}, function (err, meals) {
+      console.log("flight ", flight)
+      console.log("meals: ", meals)
+      res.render("flights/show", {
+        flight: flight,
+        title: "flight Detail",
+        meals,
+      })
+    })
   })
 }
 function deleteFlight(req, res) {
@@ -23,10 +30,6 @@ function deleteFlight(req, res) {
 function create(req, res) {
   console.log("req.body before", req.body)
   req.body.nowShowing = !!req.body.nowShowing
-  // req.body.meal before: "me, you, us"
-  if (req.body.meal) {
-    req.body.meal = req.body.meal.split(', ')
-  }
   for (let key in req.body) {
     if(req.body[key] === "") delete req.body[key]
   }
@@ -34,7 +37,6 @@ function create(req, res) {
   console.log("req.body after", req.body)
   // New
   const flight = new Flight(req.body)
-  if (req.body.departs === '') delete req.body.departs
   flight.save(function(err) {
     if (err) return res.redirect('/flights/new')
     res.redirect(`/flights/${flight._id}`)

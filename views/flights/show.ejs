@@ -13,8 +13,26 @@
     <div><%= flight.flightNo %></div>
     <div>Flight Departure:</div>
     <div><%= flight.createdAt.toLocaleString('en-US') + 365*24*60*60000
-
-      %></div>
+  %></div>
+    <div>Cast: </div>
+    <ul>
+      <% flight.meal.forEach(meal => { %>
+        <li><%= meal.name %></li>
+      <% }) %>
+    </ul>
+  </section>
+  <form 
+    id="add-meal-to-ticket"
+    action="/flights/<%= flight._id %>/meals"
+    method="post"
+  >
+    <select name="mealId">
+      <% meals.forEach(meal => { %>
+        <option value="<%= meal._id %>"><%= meal.name %></option>
+      <% }) %>
+    </select>
+    <button type="submit">Add to Cast</button>
+  </form>
     
     
     </section>
